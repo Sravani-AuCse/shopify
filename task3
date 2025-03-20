@@ -1,0 +1,23 @@
+{% comment %} Personalized Greeting Based on Time of Day {% endcomment %}
+{% assign current_hour = now | date: "%H" | plus: 0 %}
+
+<div class="greeting">
+  {% if current_hour < 12 %}
+    <h2>Good Morning, Shopper! ☀️</h2>
+  {% elsif current_hour >= 12 and current_hour < 18 %}
+    <h2>Good Afternoon, Shopper! 🌤️</h2>
+  {% else %}
+    <h2>Good Evening, Shopper! 🌙</h2>
+  {% endif %}
+</div>
+
+{% comment %} Styling for Greeting {% endcomment %}
+<style>
+  .greeting {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #333;
+  }
+</style>
