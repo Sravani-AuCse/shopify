@@ -1,0 +1,40 @@
+{% comment %} Assign Cart Total {% endcomment %}
+{% assign cart_total = cart.total_price | divided_by: 100 %} 
+
+<div class="upsell-container">
+  {% if cart_total < 1000 %}
+    {% assign upsell_collection = collections['Accessories'] %}
+  {% else %}
+    {% assign upsell_collection = collections['Premium'] %}
+  {% endif %}
+
+  {% if upsell_collection and upsell_collection.products.size > 0 %}
+    {% assign upsell_product = upsell_collection.products | sample %}  
+
+    <div class="upsell-product">
+      <h3>Recommended for You:</h3>
+      <a href="{{ upsell_product.url }}">
+        <img src="{{ upsell_product.featured_image | img_url: 'medium' }}" alt="{{ upsell_product.title }}">
+        <p>{{ upsell_product.title }}</p>
+        <p><strong>{{ upsell_product.price | money }}</strong></p>
+        <button onclick="window.location='{{ upsell_product.url }}'">View Product</button>
+      </a>
+    </div>
+  {% endif %}
+</div>
+
+{% comment %} Styling for Upsell Section {% endcomment %}
+<style>
+  .upsell-container {
+    border-top: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  .upsell-product img {
+    max-width: 150px;
+    display: block;
+    margin: 10px auto;
+  }
+  .upsell-product button {
+    background-color: #007bff;
