@@ -1,0 +1,49 @@
+{% comment %} Collection Filter Dropdown {% endcomment %}
+<div class="filter-container">
+  <label for="tag-filter">Filter by:</label>
+  <select id="tag-filter">
+    <option value="all">All Products</option>
+    <option value="best-seller">Best Seller</option>
+    <option value="new-arrival">New Arrival</option>
+    <option value="discounted">Discounted</option>
+  </select>
+</div>
+
+{% comment %} Product Loop {% endcomment %}
+<div class="product-list">
+  {% for product in collection.products %}
+    <div class="product-item" data-tags="{{ product.tags | join: ',' }}">
+      <h3>{{ product.title }}</h3>
+      <p>{{ product.price | money }}</p>
+    </div>
+  {% endfor %}
+</div>
+
+{% comment %} JavaScript for Filtering {% endcomment %}
+<script>
+  document.getElementById('tag-filter').addEventListener('change', function() {
+    let selectedTag = this.value;
+    let products = document.querySelectorAll('.product-item');
+
+    products.forEach(product => {
+      let tags = product.getAttribute('data-tags').split(',');
+      if (selectedTag === 'all' || tags.includes(selectedTag)) {
+        product.style.display = 'block';
+      } else {
+        product.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+{% comment %} Basic Styling {% endcomment %}
+<style>
+  .filter-container {
+    margin-bottom: 15px;
+  }
+  .product-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+  }
+</style>
